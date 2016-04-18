@@ -5,6 +5,7 @@ module Mote::Render
     app.settings[:mote] ||= {}
     app.settings[:mote][:views] ||= File.expand_path("views", Dir.pwd)
     app.settings[:mote][:layout] ||= "layout"
+    app.settings[:mote][:cache] ||= false
   end
 
   def render(template, locals = {}, layout = settings[:mote][:layout])
@@ -16,7 +17,7 @@ module Mote::Render
   end
 
   def partial(template, locals = {})
-    return mote(mote_path(template), locals.merge(app: self), TOPLEVEL_BINDING)
+    return mote(mote_path(template), locals.merge(app: self), TOPLEVEL_BINDING, settings[:mote][:cache])
   end
 
   def mote_path(template)
